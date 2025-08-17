@@ -6,11 +6,13 @@ public class Enemy : MonoBehaviour
     Rigidbody2D rb;
     Transform target;
     Vector2 moveDirection;
+    SpriteRenderer spriteRenderer;
 
     public int damage = 1;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     void Start()
     {
@@ -24,8 +26,11 @@ public class Enemy : MonoBehaviour
             Vector3 direction = (target.position - transform.position).normalized;
             moveDirection = direction;
 
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.rotation = angle;
+            // Vira o sprite apenas para esquerda/direita
+            if (direction.x < 0)
+                spriteRenderer.flipX = true;
+            else
+                spriteRenderer.flipX = false;
         }
     }
 
@@ -34,3 +39,5 @@ public class Enemy : MonoBehaviour
         rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
     }
 }
+
+

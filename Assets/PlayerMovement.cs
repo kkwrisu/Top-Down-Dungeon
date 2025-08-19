@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        Vector3 direcao = Vector3.zero;
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");
         input.Normalize();
@@ -31,12 +32,21 @@ public class PlayerMovement : MonoBehaviour
         {
             spriteRenderer.flipX = false;
         }
+
+        Collider2D collision = Physics2D.OverlapCircle(transform.position, 0.1f);
+        if (collision != null)
+        {
+            transform.position -= direcao;
+            Debug.Log("Colidiu com: " + collision.gameObject.name);
+
+        }
     }
 
     private void FixedUpdate()
     {
         rb.linearVelocity = input * speed;
     }
+
 }
     
 
